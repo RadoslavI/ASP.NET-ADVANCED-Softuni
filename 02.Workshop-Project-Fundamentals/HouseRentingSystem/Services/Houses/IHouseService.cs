@@ -1,9 +1,15 @@
-﻿using HouseRentingSystem.Services.Models;
+﻿using HouseRentingSystem.Services.Houses.Models;
+using HouseRentingSystem.Services.Models;
 
 namespace HouseRentingSystem.Services.Houses
 {
 	public interface IHouseService
 	{
 		IEnumerable<HouseIndexServiceModel> LastThreeHouses();
+		IEnumerable<HouseCategoryServiceModel> AllCategories();
+		bool CategoryExists(int categoryId);
+		int Create(string title, string address,
+			string description, string imageUrl, decimal price,
+			int categoryId, int agentId);
 	}
 }

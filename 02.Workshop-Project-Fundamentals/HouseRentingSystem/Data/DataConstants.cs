@@ -9,6 +9,7 @@ namespace HouseRentingSystem.Data
 
         //House constants
         public const int TitleMaxLength = 50;
+        public const int TitleMinLength = 10;
         public const int AddressMinLength = 10;
         public const int AddressMaxLength = 150;
         public const int DescruptionMinLength = 50;
