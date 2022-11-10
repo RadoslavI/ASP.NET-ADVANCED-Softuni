@@ -18,9 +18,28 @@ namespace HouseRentingSystem.Controllers
             this.agents = _agents;
         }
 
-        public IActionResult All()
+        //public IActionResult All()
+        //{
+        //    return View(new AllHousesQueryModel());
+        //}
+
+        //[HttpPost]
+        public IActionResult All([FromQuery] AllHousesQueryModel query)
         {
-            return View(new AllHousesQueryModel());
+            var queryResult = this.houses.All(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllHousesQueryModel.HousesPerPage);
+
+            query.TotalHousesCount = queryResult.TotalHousesCount;
+            query.Houses = queryResult.Houses;
+
+            var houseCategories = this.houses.AllCategoriesNames();
+            query.Categories = houseCategories;
+
+            return View(query);
         }
 
         [Authorize]

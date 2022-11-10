@@ -1,4 +1,5 @@
-﻿using HouseRentingSystem.Services.Houses.Models;
+﻿using HouseRentingSystem.Models;
+using HouseRentingSystem.Services.Houses.Models;
 using HouseRentingSystem.Services.Models;
 
 namespace HouseRentingSystem.Services.Houses
@@ -11,5 +12,15 @@ namespace HouseRentingSystem.Services.Houses
 		int Create(string title, string address,
 			string description, string imageUrl, decimal price,
 			int categoryId, int agentId);
-	}
+
+		HouseQueryServiceModel All(
+			string category = null,
+			string searchTerm = null,
+			HouseSorting sorting = HouseSorting.Newest,
+			int currentPage = 1,
+			int housesPerPage = 1);
+
+		IEnumerable<string> AllCategoriesNames();
+
+    }
 }
