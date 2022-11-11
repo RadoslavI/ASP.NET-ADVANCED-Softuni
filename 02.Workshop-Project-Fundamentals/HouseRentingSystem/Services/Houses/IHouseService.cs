@@ -7,8 +7,11 @@ namespace HouseRentingSystem.Services.Houses
 	public interface IHouseService
 	{
 		IEnumerable<HouseIndexServiceModel> LastThreeHouses();
+
 		IEnumerable<HouseCategoryServiceModel> AllCategories();
+
 		bool CategoryExists(int categoryId);
+
 		int Create(string title, string address,
 			string description, string imageUrl, decimal price,
 			int categoryId, int agentId);
@@ -22,5 +25,8 @@ namespace HouseRentingSystem.Services.Houses
 
 		IEnumerable<string> AllCategoriesNames();
 
+		IEnumerable<HouseServiceModel> AllHousesByAgentId(int agentId);
+
+		IEnumerable<HouseServiceModel> AllHousesByUserId(string userId);
     }
 }

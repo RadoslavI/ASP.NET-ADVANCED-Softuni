@@ -3,6 +3,7 @@ using HouseRentingSystem.Data.Entities;
 using HouseRentingSystem.Models;
 using HouseRentingSystem.Services.Houses.Models;
 using HouseRentingSystem.Services.Models;
+using Microsoft.Build.Evaluation;
 
 namespace HouseRentingSystem.Services.Houses
 {
@@ -91,10 +92,49 @@ namespace HouseRentingSystem.Services.Houses
 					.ToList();
 		}
 
-		public bool CategoryExists(int categoryId)
+		public IEnumerable<HouseServiceModel> AllHousesByAgentId(int agentId)
+		{
+			var houses = this.data
+					.Houses
+					.Where(h => h.AgentId == agentId)
+					.ToList();
+
+			return ProjectToModel(houses);
+		}
+
+		public IEnumerable<HouseServiceModel> AllHousesByUserId(string userId)
+		{
+			var houses = this.data
+				.Houses
+				.Where(h => h.RenterId == userId)
+				.ToList();
+
+			return ProjectToModel(houses);
+		}
+
+        private List<HouseServiceModel> ProjectToModel(List<House> houses)
+        {
+			var resultHouses = houses
+				.Select(h => new HouseServiceModel()
+				{
+					Id = h.Id,
+					Title = h.Title,
+					Address = h.Address,
+					ImageUrl = h.ImageUrl,
+					PricePerMonth = h.PricePerMonth,
+					IsRented = h.RenterId != null
+				})
+				.ToList();
+
+			return resultHouses;
+        }
+
+        public bool CategoryExists(int categoryId)
 			=> this.data.Categories.Any(c => c.Id == categoryId);
 
-		public int Create(string title, string address, string description, string imageUrl, decimal price, int categoryId, int agentId)
+		public int Create(string title, string address, 
+			string description, string imageUrl, 
+			decimal price, int categoryId, int agentId)
 		{
 			var house = new House
 			{

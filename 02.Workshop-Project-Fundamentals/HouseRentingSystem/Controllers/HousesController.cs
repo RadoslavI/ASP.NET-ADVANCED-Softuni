@@ -2,6 +2,7 @@
 using HouseRentingSystem.Models.Houses;
 using HouseRentingSystem.Services.Agents;
 using HouseRentingSystem.Services.Houses;
+using HouseRentingSystem.Services.Houses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,6 @@ namespace HouseRentingSystem.Controllers
             this.houses = _houses;
             this.agents = _agents;
         }
-
-        //public IActionResult All()
-        //{
-        //    return View(new AllHousesQueryModel());
-        //}
-
-        //[HttpPost]
         public IActionResult All([FromQuery] AllHousesQueryModel query)
         {
             var queryResult = this.houses.All(
@@ -45,7 +39,22 @@ namespace HouseRentingSystem.Controllers
         [Authorize]
         public IActionResult Mine()
         {
-            return View(new AllHousesQueryModel());
+            IEnumerable<HouseServiceModel> myHouses = null;
+
+            var userId = this.User.Id();
+
+            if (this.agents.ExistsById(userId))
+            {
+                var currentAgentId = this.agents.GetAgentId(userId);
+
+                myHouses = this.houses.AllHousesByAgentId(currentAgentId);
+            }
+            else
+            {
+                myHouses = this.houses.AllHousesByUserId(userId);
+            }
+
+            return View(myHouses);
         }
 
         public IActionResult Details(int id)
@@ -75,7 +84,7 @@ namespace HouseRentingSystem.Controllers
                 return RedirectToAction(nameof(AgentsController.Become), "Agents");
             }
 
-            if (houses.CategoryExists(model.CategoryId))
+            if (!houses.CategoryExists(model.CategoryId))
             {
                 ModelState.AddModelError(nameof(model.CategoryId),
                     "Category doesn't exist.");
