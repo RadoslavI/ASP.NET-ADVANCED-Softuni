@@ -59,7 +59,14 @@ namespace HouseRentingSystem.Controllers
 
         public IActionResult Details(int id)
         {
-            return View();
+            if (!this.houses.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var houseModel = this.houses.HouseDetailsById(id);
+
+            return View(houseModel);
         }
 
         public IActionResult Add()
