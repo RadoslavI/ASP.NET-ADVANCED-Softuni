@@ -224,6 +224,23 @@ namespace HouseRentingSystem.Controllers
         [HttpPost]
         public IActionResult Rent(int id)
         {
+            if (!this.houses.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            if (this.agents.ExistsById(this.User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            if (this.houses.IsRented(id))
+            {
+                return BadRequest();
+            }
+
+            this.houses.Rent(id, this.User.Id());
+
             return RedirectToAction(nameof(Mine));
         }
 

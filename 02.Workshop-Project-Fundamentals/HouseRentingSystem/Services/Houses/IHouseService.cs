@@ -1,6 +1,7 @@
 ﻿using HouseRentingSystem.Models;
 using HouseRentingSystem.Services.Houses.Models;
 using HouseRentingSystem.Services.Models;
+using Newtonsoft.Json.Bson;
 
 namespace HouseRentingSystem.Services.Houses
 {
@@ -35,9 +36,17 @@ namespace HouseRentingSystem.Services.Houses
 
 		void Edit(int houseId, string title, string address,
 			string description, string imageUrl, decimal price, int categoryId);
+
 		bool HasAgentWithId(int houseId, string currentUserId);
+
 		int GetHouseCategoryId(int houseId);
 
 		void Delete(int houseId);
+
+		bool IsRented(int id);
+
+		bool IsRentedByUserWithId(int houseId, string userId);
+
+		void Rent(int houseId, string userId);
 	}
 }
