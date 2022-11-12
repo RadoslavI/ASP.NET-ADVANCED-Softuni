@@ -37,5 +37,7 @@ namespace HouseRentingSystem.Services.Houses
 			string description, string imageUrl, decimal price, int categoryId);
 		bool HasAgentWithId(int houseId, string currentUserId);
 		int GetHouseCategoryId(int houseId);
+
+		void Delete(int houseId);
 	}
 }

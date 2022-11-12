@@ -179,13 +179,44 @@ namespace HouseRentingSystem.Controllers
         [Authorize]
         public IActionResult Delete(int id)
         {
-            return View(new HouseDetailsViewModel());
+            if (!this.houses.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            if (!this.houses.HasAgentWithId(id, this.User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            var house = this.houses.HouseDetailsById(id);
+
+            var model = new HouseDetailsViewModel()
+            {
+                Title = house.Title,
+                Address = house.Address,
+                ImageUrl = house.ImageUrl
+            };
+
+            return View(model);
         }
 
         [Authorize]
         [HttpPost]
         public IActionResult Delete(HouseDetailsViewModel model)
         {
+            if (!this.houses.Exists(model.Id))
+            {
+                return BadRequest();
+            }
+
+            if (!this.houses.HasAgentWithId(model.Id, this.User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            this.houses.Delete(model.Id);
+
             return RedirectToAction(nameof(All));
         }
 
