@@ -273,5 +273,13 @@ namespace HouseRentingSystem.Services.Houses
 		{
 			return this.data.Houses.Find(id).RenterId != null;
 		}
+
+		public void Leave(int houseId)
+		{
+			var house = this.data.Houses.Find(houseId);
+
+			house.RenterId = null;
+			this.data.SaveChanges();
+		}
 	}
 }
