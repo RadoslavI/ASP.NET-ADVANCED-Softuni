@@ -64,7 +64,7 @@ namespace HouseRentingSystem.Data
 
         private void SeedUsers()
         {
-            var hasher = new PasswordHasher<IdentityUser>();
+            var hasher = new PasswordHasher<User>();
 
             this.AgentUser = new User()
             {

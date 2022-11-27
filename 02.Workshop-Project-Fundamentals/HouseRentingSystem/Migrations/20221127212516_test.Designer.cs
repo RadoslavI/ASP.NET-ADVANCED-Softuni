@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace HouseRentingSystem.Data.Migrations
+namespace HouseRentingSystem.Migrations
 {
     [DbContext(typeof(HouseRentingDbContext))]
-    [Migration("20221105165359_initialMigration")]
-    partial class initialMigration
+    [Migration("20221127212516_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,14 @@ namespace HouseRentingSystem.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Agents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PhoneNumber = "+359888888888",
+                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                        });
                 });
 
             modelBuilder.Entity("HouseRentingSystem.Data.Entities.Category", b =>
@@ -64,6 +72,23 @@ namespace HouseRentingSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Cottage"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Single-Family"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Duplex"
+                        });
                 });
 
             modelBuilder.Entity("HouseRentingSystem.Data.Entities.House", b =>
@@ -112,6 +137,42 @@ namespace HouseRentingSystem.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Houses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "North London, UK (near the border)",
+                            AgentId = 1,
+                            CategoryId = 3,
+                            Description = "A big house for your whole family. Don't miss to buy a house with three bedrooms.",
+                            ImageUrl = "https://www.luxury-architecture.net/wp-content/uploads/2017/12/1513217889-7597-FAIRWAYS-010.jpg",
+                            PricePerMonth = 2100.00m,
+                            RenterId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            Title = "Big House Marina"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Near the Sea Garden in Burgas, Bulgaria",
+                            AgentId = 1,
+                            CategoryId = 2,
+                            Description = "It has the best comfort you will ever ask for. With two bedrooms, it is great for your family.",
+                            ImageUrl = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/179489660.jpg?k=2029f6d9589b49c95dcc9503a265e292c2cdfcb5277487a0050397c3f8dd545a&o=&hp=1",
+                            PricePerMonth = 1200.00m,
+                            Title = "Family House Comfort"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Boyana Neighbourhood, Sofia, Bulgaria",
+                            AgentId = 1,
+                            CategoryId = 2,
+                            Description = "This luxurious house is everything you will need. It is just excellent.",
+                            ImageUrl = "https://i.pinimg.com/originals/a6/f5/85/a6f5850a77633c56e4e4ac4f867e3c00.jpg",
+                            PricePerMonth = 2000.00m,
+                            Title = "Grand House"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -178,6 +239,10 @@ namespace HouseRentingSystem.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -229,6 +294,8 @@ namespace HouseRentingSystem.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -316,9 +383,64 @@ namespace HouseRentingSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HouseRentingSystem.Data.Entities.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ba82cfb8-5714-4cb1-9200-e5a373296279",
+                            Email = "agent@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "agent@mail.com",
+                            NormalizedUserName = "agent@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG6Zb/f9c16cqQ8QLjx3BSwFI2t9RnAPKqSdv6wmS7kXeVYzV/OmRXGhynxaYW2Y9A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "72d1f51f-d34d-48c5-9881-45c42c749013",
+                            TwoFactorEnabled = false,
+                            UserName = "agent@mail.com",
+                            FirstName = "Linda",
+                            LastName = "Michaels"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "66223c0e-e358-4186-8433-a7aff54b04f6",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAa1FkRfYDOIQcHJ5G0NKGbObRCxDYaOCURA/zlT/cwl5BFO1mbd+6Jd7Ymi7ylYYA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "e946f1fd-d831-4c24-bad8-2363aaedea50",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com",
+                            FirstName = "Teodor",
+                            LastName = "Lesly"
+                        });
+                });
+
             modelBuilder.Entity("HouseRentingSystem.Data.Entities.Agent", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("HouseRentingSystem.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
