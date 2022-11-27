@@ -5,6 +5,7 @@ using HouseRentingSystem.Services.Houses;
 using HouseRentingSystem.Services.Houses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace HouseRentingSystem.Controllers
 {
@@ -57,7 +58,7 @@ namespace HouseRentingSystem.Controllers
             return View(myHouses);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string information)
         {
             if (!this.houses.Exists(id))
             {
@@ -65,6 +66,11 @@ namespace HouseRentingSystem.Controllers
             }
 
             var houseModel = this.houses.HouseDetailsById(id);
+
+            if (information != houseModel.GetInformation())
+            {
+                return BadRequest();
+            }
 
             return View(houseModel);
         }
@@ -109,7 +115,8 @@ namespace HouseRentingSystem.Controllers
             var newHouseId = houses.Create(model.Title, model.Address, model.Description,
                 model.ImageUrl, model.PricePerMonth, model.CategoryId, agentId);
 
-            return RedirectToAction(nameof(Details), new { id = newHouseId });
+            return RedirectToAction(nameof(Details), 
+                new { id = newHouseId, information = model.GetInformation()});
         }
 
         [Authorize]
@@ -173,7 +180,7 @@ namespace HouseRentingSystem.Controllers
             this.houses.Edit(id, model.Title, model.Address, model.Description,
                 model.ImageUrl, model.PricePerMonth, model.CategoryId);
 
-            return RedirectToAction(nameof(Details), new { id = id });
+            return RedirectToAction(nameof(Details), new { id = id, information = model.GetInformation() });
         }
 
         [Authorize]

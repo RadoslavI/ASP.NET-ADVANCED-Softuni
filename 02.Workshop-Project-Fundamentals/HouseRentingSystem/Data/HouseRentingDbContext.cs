@@ -7,8 +7,8 @@ namespace HouseRentingSystem.Data
 {
     public class HouseRentingDbContext : IdentityDbContext
     {
-        private IdentityUser AgentUser { get; set; }
-        private IdentityUser GuestUser { get; set; }
+        private User AgentUser { get; set; }
+        private User GuestUser { get; set; }
         private Agent Agent { get; set; }
         private Category CottageCategory { get; set; }
         private Category SingleCategory { get; set; }
@@ -39,7 +39,7 @@ namespace HouseRentingSystem.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             SeedUsers();
-            builder.Entity<IdentityUser>()
+            builder.Entity<User>()
                 .HasData(this.AgentUser, this.GuestUser);
 
             SeedAgent();
@@ -66,25 +66,29 @@ namespace HouseRentingSystem.Data
         {
             var hasher = new PasswordHasher<IdentityUser>();
 
-            this.AgentUser = new IdentityUser()
+            this.AgentUser = new User()
             {
                 Id = "dea12856-c198-4129-b3f3-b893d8395082",
                 UserName = "agent@mail.com",
                 NormalizedUserName = "agent@mail.com",
                 Email = "agent@mail.com",
-                NormalizedEmail = "agent@mail.com"
+                NormalizedEmail = "agent@mail.com",
+                FirstName = "Linda",
+                LastName = "Michaels"
             };
 
             this.AgentUser.PasswordHash =
                  hasher.HashPassword(this.AgentUser, "agent123");
 
-            this.GuestUser = new IdentityUser()
+            this.GuestUser = new User()
             {
                 Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                 UserName = "guest@mail.com",
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
-                NormalizedEmail = "guest@mail.com"
+                NormalizedEmail = "guest@mail.com",
+                FirstName = "Teodor",
+                LastName = "Lesly"
             };
 
             this.GuestUser.PasswordHash =

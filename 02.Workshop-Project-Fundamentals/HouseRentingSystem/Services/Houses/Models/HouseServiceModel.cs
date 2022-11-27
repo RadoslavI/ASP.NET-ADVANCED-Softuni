@@ -3,7 +3,7 @@
 
 namespace HouseRentingSystem.Services.Houses.Models
 {
-    public class HouseServiceModel
+    public class HouseServiceModel : IHouseModel
     {
         public int Id { get; init; }
 

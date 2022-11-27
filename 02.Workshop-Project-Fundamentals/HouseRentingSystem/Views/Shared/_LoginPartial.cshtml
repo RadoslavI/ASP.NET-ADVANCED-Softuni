@@ -1,13 +1,19 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿@using HouseRentingSystem.Data.Entities;
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject IAgentService agents
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    @if (!this.agents.ExistsById(this.User.Id()))
+    {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Agents" asp-action="Become">Become Agent</a>
         </li>
+    }
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>
