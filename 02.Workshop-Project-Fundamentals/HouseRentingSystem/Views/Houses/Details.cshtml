@@ -1,7 +1,6 @@
 ﻿@model HouseDetailsServiceModel
 @inject IHouseService houses
 @inject IAgentService agents
-
 @{
     ViewBag.Title = "House Details";
 }
@@ -31,9 +30,9 @@
                     @if (this.houses.HasAgentWithId(Model.Id, this.User.Id()))
                     {
                         <a class="btn btn-warning" asp-controller="Houses" asp-action="Edit"
-                         asp-route-id="@Model.Id">Edit</a>
+                   asp-route-id="@Model.Id">Edit</a>
                         <a class="ml-2 btn btn-danger" asp-controller="Houses" asp-action="Delete"
-                        asp-route-id="@Model.Id">Delete</a>
+                   asp-route-id="@Model.Id">Delete</a>
                     }
                     @if (!Model.IsRented && !this.agents.ExistsById(this.User.Id()))
                     {
@@ -55,6 +54,10 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Agent Info</h5>
+                    @if(Model.Agent.FullName != null)
+                    {
+                        <p class="card-text">Full Name: @Model.Agent.FullName</p>
+                    }
                     <p class="card-text">Email:  @Model.Agent.Email</p>
                     <p class="card-text">Phone Number: @Model.Agent.PhoneNumber</p>
                 </div>

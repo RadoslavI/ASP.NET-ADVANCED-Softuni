@@ -1,5 +1,4 @@
 ﻿@inject IAgentService agents
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,11 +28,10 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Houses" asp-action="Mine">My Houses</a>
                             </li>
-                            @if (this.agents.ExistsById(this.User.Id()))
+                            @if(this.agents.ExistsById(this.User.Id()))
                             {
                                 <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" 
-                                asp-controller="Houses" asp-action="Add">Add Houses</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Houses" asp-action="Add">Add Houses</a>
                                 </li>
                             }
                         }

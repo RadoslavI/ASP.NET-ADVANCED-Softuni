@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<HouseIndexServiceModel>
 @inject IAgentService agents
-
 @{
     ViewData["Title"] = "Home Page";
     var houses = Model.ToList();
@@ -16,8 +15,7 @@
         </p>
         <hr class="my-4">
         <p class="lead">
-            @if (this.User.Identity.IsAuthenticated
-            && this.agents.ExistsById(this.User.Id()))
+            @if (this.User.Identity.IsAuthenticated && this.agents.ExistsById(this.User.Id()))
             {
                 <a asp-controller="Houses" asp-action="Add" class="btn btn-primary btn-lg"
            role="button">Add House</a>
@@ -56,11 +54,12 @@
     </button>
 </div>
 
+
 <div class="mb-5"></div>
 
 <div class="row">
     <div class="col-12 text-center">
-        <button clas="btn btn-primary" id="statistics-button">Show Statistics</button>
+        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
     </div>
 </div>
 
@@ -71,14 +70,14 @@
     </div>
 </div>
 
-@section Scripts{
+@section Scripts {
     <script>
-        $('#statistics-button').on('click', ev=>{
-            $.get('/api/statistics', (data) =>{
+        $('#statistics-button').on('click', ev => {
+            $.get('/api/statistics', (data) => {
                 $('#total-houses').text(data.totalHouses + " Houses");
                 $('#total-rents').text(data.totalRents + " Rents");
                 $('#statistics').removeClass('d-none');
-                $('#statistics-button').hide();
+                $('statistics-button').hide();
             });
         });
     </script>

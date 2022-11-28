@@ -16,8 +16,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-5.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -1,8 +1,11 @@
 using HouseRentingSystem.Data;
 using HouseRentingSystem.Data.Entities;
+using HouseRentingSystem.Infrastructure;
 using HouseRentingSystem.Services.Agents;
 using HouseRentingSystem.Services.Houses;
 using HouseRentingSystem.Services.Statistics;
+using HouseRentingSystem.Services.Users;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,15 +26,18 @@ builder.Services.AddDefaultIdentity<User>(options =>
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequireUppercase = false;
     })
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<HouseRentingDbContext>();
 
 builder.Services.AddControllersWithViews(options =>
 {
-    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();//Anti CSRF attacks
 });
 builder.Services.AddTransient<IHouseService, HouseService>();
 builder.Services.AddTransient<IAgentService, AgentService>();
 builder.Services.AddTransient<IStatisticsService, StatisticsService>();
+builder.Services.AddTransient<IUserService, UserService>();
+
 
 var app = builder.Build();
 
@@ -46,26 +52,26 @@ else
     app.UseHsts();
 }
 
+app.SeedAdmin();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "House Details",
         pattern: "/Houses/Details/{id}/{information}",
-        defaults: new { Controller = "Houses", Action = "Details" });
+        defaults: new { Controller = "Houses", Action = "Details" }
+        );
 
-    endpoints.MapDefaultControllerRoute();
-    endpoints.MapRazorPages();
+    app.MapDefaultControllerRoute();
+    app.MapRazorPages();
 });
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapDefaultControllerRoute();
-app.MapRazorPages();
 
 app.Run();

@@ -4,6 +4,8 @@ using HouseRentingSystem.Models;
 using HouseRentingSystem.Services.Agents;
 using HouseRentingSystem.Services.Houses.Models;
 using HouseRentingSystem.Services.Models;
+using HouseRentingSystem.Services.Users;
+
 using Microsoft.Build.Evaluation;
 
 #nullable disable
@@ -13,10 +15,11 @@ namespace HouseRentingSystem.Services.Houses
 	public class HouseService : IHouseService
 	{
 		private readonly HouseRentingDbContext data;
-
-		public HouseService(HouseRentingDbContext _data)
+		private readonly IUserService users;
+		public HouseService(HouseRentingDbContext _data, IUserService users)
 		{
 			this.data = _data;
+			this.users = users;
 		}
 
 		public HouseQueryServiceModel All(string category = null, 
@@ -193,6 +196,7 @@ namespace HouseRentingSystem.Services.Houses
 					Category = h.Category.Name,
 					Agent = new AgentServiceModel()
 					{
+						FullName = this.users.UserFullName(h.Agent.UserId),
 						PhoneNumber = h.Agent.PhoneNumber,
 						Email = h.Agent.User.Email
 					}

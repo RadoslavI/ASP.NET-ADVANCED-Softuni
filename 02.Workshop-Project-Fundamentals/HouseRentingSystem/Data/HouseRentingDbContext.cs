@@ -2,14 +2,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static HouseRentingSystem.AdminConstants;
 
 namespace HouseRentingSystem.Data
 {
-    public class HouseRentingDbContext : IdentityDbContext
+    public class HouseRentingDbContext : IdentityDbContext<User>
     {
+        private User AdminUser { get; set; }
         private User AgentUser { get; set; }
         private User GuestUser { get; set; }
         private Agent Agent { get; set; }
+        private Agent AdminAgent { get; set; }
         private Category CottageCategory { get; set; }
         private Category SingleCategory { get; set; }
         private Category DuplexCategory { get; set; }
@@ -40,11 +43,11 @@ namespace HouseRentingSystem.Data
 
             SeedUsers();
             builder.Entity<User>()
-                .HasData(this.AgentUser, this.GuestUser);
+                .HasData(this.AgentUser, this.GuestUser, this.AdminUser);
 
             SeedAgent();
             builder.Entity<Agent>()
-                .HasData(this.Agent);
+                .HasData(this.Agent, this.AdminAgent);
 
             SeedCategories();
             builder.Entity<Category>()
@@ -66,6 +69,21 @@ namespace HouseRentingSystem.Data
         {
             var hasher = new PasswordHasher<User>();
 
+            this.AdminUser = new User()
+            {
+                Id = "bcb4f072-ecca-43c9-ab26-c060c6f364e4",
+                Email = AdminEmail,
+                NormalizedEmail = AdminEmail,
+                UserName = AdminEmail,
+                NormalizedUserName = AdminEmail,
+                FirstName = "Great",
+                LastName = "Admin"
+            };
+
+            this.AdminUser.PasswordHash =
+                 hasher.HashPassword(this.AgentUser, "admin123");
+
+
             this.AgentUser = new User()
             {
                 Id = "dea12856-c198-4129-b3f3-b893d8395082",
@@ -73,8 +91,8 @@ namespace HouseRentingSystem.Data
                 NormalizedUserName = "agent@mail.com",
                 Email = "agent@mail.com",
                 NormalizedEmail = "agent@mail.com",
-                FirstName = "Linda",
-                LastName = "Michaels"
+                FirstName = "Deivid",
+                LastName = "Doichev"
             };
 
             this.AgentUser.PasswordHash =
@@ -87,8 +105,8 @@ namespace HouseRentingSystem.Data
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
                 NormalizedEmail = "guest@mail.com",
-                FirstName = "Teodor",
-                LastName = "Lesly"
+                FirstName = "Jenny",
+                LastName = "Atanasova"
             };
 
             this.GuestUser.PasswordHash =
@@ -97,6 +115,13 @@ namespace HouseRentingSystem.Data
 
         private void SeedAgent()
         {
+            this.AdminAgent = new Agent()
+            {
+                Id = 5,
+                PhoneNumber = "+359123456789",
+                UserId = this.AdminUser.Id
+            };
+
             this.Agent = new Agent()
             {
                 Id = 1,

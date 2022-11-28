@@ -1,5 +1,6 @@
 ﻿using HouseRentingSystem.Services.Statistics;
 using HouseRentingSystem.Services.Statistics.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace HouseRentingSystem.Controllers.Api
@@ -10,15 +11,12 @@ namespace HouseRentingSystem.Controllers.Api
     {
         private readonly IStatisticsService statistics;
 
-        public StatisticsApiController(IStatisticsService _statistics)
+        public StatisticsApiController(IStatisticsService statistics)
         {
-            this.statistics = _statistics;
+            this.statistics = statistics;
         }
 
         [HttpGet]
-        public StatisticsServiceModel GetStatistics()
-        {
-            return this.statistics.Total();
-        }
+        public StatisticsServiceModel GetStatistics() => this.statistics.Total();
     }
 }

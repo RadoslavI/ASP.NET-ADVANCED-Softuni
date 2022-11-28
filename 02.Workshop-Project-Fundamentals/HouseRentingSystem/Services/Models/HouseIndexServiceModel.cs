@@ -1,5 +1,4 @@
 ﻿#nullable disable
-using HouseRentingSystem.Services.Houses;
 using HouseRentingSystem.Services.Houses.Models;
 
 namespace HouseRentingSystem.Services.Models
@@ -12,6 +11,6 @@ namespace HouseRentingSystem.Services.Models
 
 		public string ImageUrl { get; init; }
 
-        public string Address { get; init; }
-    }
+		public string Address { get; init; }
+	}
 }

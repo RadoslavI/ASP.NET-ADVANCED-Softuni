@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HouseRentingSystem.Migrations
 {
-    public partial class test : Migration
+    public partial class Initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,9 +28,8 @@ namespace HouseRentingSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -224,11 +223,12 @@ namespace HouseRentingSystem.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "66223c0e-e358-4186-8433-a7aff54b04f6", "User", "guest@mail.com", false, "Teodor", "Lesly", false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEAa1FkRfYDOIQcHJ5G0NKGbObRCxDYaOCURA/zlT/cwl5BFO1mbd+6Jd7Ymi7ylYYA==", null, false, "e946f1fd-d831-4c24-bad8-2363aaedea50", false, "guest@mail.com" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "ba82cfb8-5714-4cb1-9200-e5a373296279", "User", "agent@mail.com", false, "Linda", "Michaels", false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEG6Zb/f9c16cqQ8QLjx3BSwFI2t9RnAPKqSdv6wmS7kXeVYzV/OmRXGhynxaYW2Y9A==", null, false, "72d1f51f-d34d-48c5-9881-45c42c749013", false, "agent@mail.com" }
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "9fc56b63-d7e6-4cfb-9ad6-076e22f71b98", "guest@mail.com", false, "Jenny", "Atanasova", false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEIFGasE0A/DzSyrFCONh497ERAVV9gO1RM2QHup1VEgH/MaF4PhUY+Y/Pf4YaMPKQg==", null, false, "6ad5f16e-2fe7-4aab-8321-487f63cc82f5", false, "guest@mail.com" },
+                    { "bcb4f072-ecca-43c9-ab26-c060c6f364e4", 0, "57a3e639-679e-4ff2-a058-acb1a102d028", "admin@mail.com", false, "Great", "Admin", false, null, "admin@mail.com", "admin@mail.com", "AQAAAAEAACcQAAAAEKBfuIc5jB2Y1H3qqGBkeKDL3Tqq+Txb/QaFm9gsP0NCY/+Lb+57F3y8odLghCARkg==", null, false, "01441606-0bc0-4fad-80de-c2c78ae6ab16", false, "admin@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "46cefa19-7df1-46a1-ab2f-21b7ab27e27d", "agent@mail.com", false, "Deivid", "Doichev", false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEJr2XoenLf6f88oBfc3Z/SCC/bgZ2Xsp4z9HRKRmm9hLAmiJ1Z50H5OxMPzHnxOHkQ==", null, false, "1c0986c7-2ea1-4aff-8ee8-ef7cace3bed8", false, "agent@mail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -245,6 +245,11 @@ namespace HouseRentingSystem.Migrations
                 table: "Agents",
                 columns: new[] { "Id", "PhoneNumber", "UserId" },
                 values: new object[] { 1, "+359888888888", "dea12856-c198-4129-b3f3-b893d8395082" });
+
+            migrationBuilder.InsertData(
+                table: "Agents",
+                columns: new[] { "Id", "PhoneNumber", "UserId" },
+                values: new object[] { 5, "+359123456789", "bcb4f072-ecca-43c9-ab26-c060c6f364e4" });
 
             migrationBuilder.InsertData(
                 table: "Houses",
