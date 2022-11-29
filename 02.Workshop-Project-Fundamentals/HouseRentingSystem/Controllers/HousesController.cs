@@ -125,7 +125,8 @@ namespace HouseRentingSystem.Controllers
                 return BadRequest();
             }
 
-            if (!this.houses.HasAgentWithId(id, this.User.Id()))
+            if (!this.houses.HasAgentWithId(id, this.User.Id())
+                && !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -157,7 +158,8 @@ namespace HouseRentingSystem.Controllers
                 return this.View();
             }
 
-            if (!this.houses.HasAgentWithId(id, this.User.Id()))
+            if (!this.houses.HasAgentWithId(id, this.User.Id())
+                && !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -189,7 +191,8 @@ namespace HouseRentingSystem.Controllers
                 return BadRequest();
             }
 
-            if (!this.houses.HasAgentWithId(id, this.User.Id()))
+            if (!this.houses.HasAgentWithId(id, this.User.Id())
+                && !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -215,7 +218,8 @@ namespace HouseRentingSystem.Controllers
                 return BadRequest();
             }
 
-            if (!this.houses.HasAgentWithId(model.Id, this.User.Id()))
+            if (!this.houses.HasAgentWithId(model.Id, this.User.Id())
+                && !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -234,7 +238,8 @@ namespace HouseRentingSystem.Controllers
                 return BadRequest();
             }
 
-            if (this.agents.ExistsById(this.User.Id()))
+            if (this.agents.ExistsById(this.User.Id())
+                && !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
