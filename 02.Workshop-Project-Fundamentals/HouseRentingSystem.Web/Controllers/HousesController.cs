@@ -5,6 +5,7 @@ using HouseRentingSystem.Services.Houses;
 using HouseRentingSystem.Services.Houses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace HouseRentingSystem.Web.Controllers
 {
@@ -12,11 +13,15 @@ namespace HouseRentingSystem.Web.Controllers
     {
         private readonly IHouseService houses;
         private readonly IAgentService agents;
+        private readonly IMapper mapper;
 
-        public HousesController(IHouseService _houses, IAgentService _agents)
+        public HousesController(IHouseService _houses, 
+            IAgentService _agents,
+            IMapper _mapper)
         {
             this.houses = _houses;
             this.agents = _agents;
+            this.mapper = _mapper;
         }
         public IActionResult All([FromQuery] AllHousesQueryModel query)
         {
@@ -135,16 +140,9 @@ namespace HouseRentingSystem.Web.Controllers
 
             var houseCategoryId = this.houses.GetHouseCategoryId(house.Id);
 
-            var houseModel = new HouseFormModel()
-            {
-                Title = house.Title,
-                Address = house.Address,
-                Description = house.Description,
-                ImageUrl = house.ImageUrl,
-                PricePerMonth = house.PricePerMonth,
-                CategoryId = houseCategoryId,
-                Categories = this.houses.AllCategories()
-            };
+            var houseModel = this.mapper.Map<HouseFormModel>(house);
+            houseModel.CategoryId = houseCategoryId;
+            houseModel.Categories = this.houses.AllCategories();
 
             return View(houseModel);
         }
@@ -199,12 +197,7 @@ namespace HouseRentingSystem.Web.Controllers
 
             var house = this.houses.HouseDetailsById(id);
 
-            var model = new HouseDetailsViewModel()
-            {
-                Title = house.Title,
-                Address = house.Address,
-                ImageUrl = house.ImageUrl
-            };
+            var model = this.mapper.Map<HouseDetailsViewModel>(house);
 
             return View(model);
         }

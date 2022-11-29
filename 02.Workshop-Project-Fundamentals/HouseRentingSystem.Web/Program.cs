@@ -9,6 +9,7 @@ using HouseRentingSystem.Services.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HouseRentingSystem.Web.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,9 @@ builder.Services.AddTransient<IHouseService, HouseService>();
 builder.Services.AddTransient<IAgentService, AgentService>();
 builder.Services.AddTransient<IStatisticsService, StatisticsService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddAutoMapper(
+    typeof(IHouseService).Assembly,
+    typeof(HomeController).Assembly);
 
 
 var app = builder.Build();
