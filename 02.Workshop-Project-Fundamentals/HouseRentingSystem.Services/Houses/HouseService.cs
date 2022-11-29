@@ -4,6 +4,8 @@ using HouseRentingSystem.Services.Agents;
 using HouseRentingSystem.Services.Houses.Models;
 using HouseRentingSystem.Services.Models;
 using HouseRentingSystem.Services.Users;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 #nullable disable
 
 namespace HouseRentingSystem.Services.Houses
@@ -12,11 +14,15 @@ namespace HouseRentingSystem.Services.Houses
 	{
 		private readonly HouseRentingDbContext data;
 		private readonly IUserService users;
-		public HouseService(HouseRentingDbContext _data, IUserService users)
+		private readonly IMapper mapper;
+        public HouseService(HouseRentingDbContext _data,
+			IUserService _users,
+			IMapper _mapper)
 		{
 			this.data = _data;
-			this.users = users;
-		}
+			this.users = _users;
+			this.mapper = _mapper;
+        }
 
 		public HouseQueryServiceModel All(string category = null, 
 			string searchTerm = null, 
@@ -53,15 +59,7 @@ namespace HouseRentingSystem.Services.Houses
 			var houses = housesQuery
 				.Skip((currentPage - 1) * housesPerPage)
 				.Take(housesPerPage)
-				.Select(h => new HouseServiceModel
-				{
-					Id = h.Id,
-					Title = h.Title,
-					Address = h.Address,
-					ImageUrl = h.ImageUrl,
-					IsRented = h.RenterId != null,
-					PricePerMonth = h.PricePerMonth
-				})
+				.ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
 				.ToList();
 
 			var totalHouses = housesQuery.Count();
