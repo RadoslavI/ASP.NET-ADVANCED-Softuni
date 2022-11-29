@@ -75,11 +75,7 @@ namespace HouseRentingSystem.Services.Houses
 		{
 			return this.data
 					.Categories
-					.Select(c => new HouseCategoryServiceModel
-					{
-						Id = c.Id,
-						Name = c.Name
-					})
+					.ProjectTo<HouseCategoryServiceModel>(this.mapper.ConfigurationProvider)
 					.ToList();
 		}
 
@@ -97,9 +93,10 @@ namespace HouseRentingSystem.Services.Houses
 			var houses = this.data
 					.Houses
 					.Where(h => h.AgentId == agentId)
+					.ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
 					.ToList();
 
-			return ProjectToModel(houses);
+			return houses;
 		}
 
 		public IEnumerable<HouseServiceModel> AllHousesByUserId(string userId)
@@ -107,27 +104,11 @@ namespace HouseRentingSystem.Services.Houses
 			var houses = this.data
 				.Houses
 				.Where(h => h.RenterId == userId)
-				.ToList();
+                .ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
+                .ToList();
 
-			return ProjectToModel(houses);
+			return houses;
 		}
-
-        private List<HouseServiceModel> ProjectToModel(List<House> houses)
-        {
-			var resultHouses = houses
-				.Select(h => new HouseServiceModel()
-				{
-					Id = h.Id,
-					Title = h.Title,
-					Address = h.Address,
-					ImageUrl = h.ImageUrl,
-					PricePerMonth = h.PricePerMonth,
-					IsRented = h.RenterId != null
-				})
-				.ToList();
-
-			return resultHouses;
-        }
 
         public bool CategoryExists(int categoryId)
 			=> this.data.Categories.Any(c => c.Id == categoryId);
@@ -158,13 +139,7 @@ namespace HouseRentingSystem.Services.Houses
 			return this.data
 					.Houses
 					.OrderByDescending(c => c.Id)
-					.Select(c => new HouseIndexServiceModel
-					{
-						Id = c.Id,
-						Title = c.Title,
-						Address = c.Address,
-						ImageUrl = c.ImageUrl
-					})
+					.ProjectTo<HouseIndexServiceModel>(this.mapper.ConfigurationProvider)
 					.Take(3);
 		}
 
