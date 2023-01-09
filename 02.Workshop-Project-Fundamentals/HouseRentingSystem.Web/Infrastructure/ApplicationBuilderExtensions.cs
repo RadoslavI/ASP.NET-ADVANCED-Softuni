@@ -1,4 +1,5 @@
 ﻿using HouseRentingSystem.Services.Data.Entities;
+using HouseRentingSystem.Web.Areas.Admin;
 using Microsoft.AspNetCore.Identity;
 
 namespace HouseRentingSystem.Web.Infrastructure

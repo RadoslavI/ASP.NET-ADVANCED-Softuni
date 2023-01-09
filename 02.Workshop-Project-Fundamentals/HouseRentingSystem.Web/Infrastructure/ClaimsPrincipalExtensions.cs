@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
-using static HouseRentingSystem.Web.AdminConstants;
+using static HouseRentingSystem.Web.Areas.Admin.AdminConstants;
 #nullable disable
 
 namespace HouseRentingSystem.Web.Infrastructure
 {
-	public static class ClaimsPrincipalExtensions
+    public static class ClaimsPrincipalExtensions
 	{
 		public static string Id(this ClaimsPrincipal user)
 		{

@@ -32,7 +32,7 @@ namespace HouseRentingSystem.Services.Agents
 		public int GetAgentId(string userId)
 		{
 			return data.Agents
-				.FirstOrDefault(a => a!.UserId! == userId)
+				.FirstOrDefault(a => a!.UserId! == userId)!
 				.Id;
 		}
 

@@ -6,6 +6,7 @@ using HouseRentingSystem.Services.Houses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using static HouseRentingSystem.Web.Areas.Admin.AdminConstants;
 
 namespace HouseRentingSystem.Web.Controllers
 {
@@ -44,7 +45,12 @@ namespace HouseRentingSystem.Web.Controllers
         [Authorize]
         public IActionResult Mine()
         {
-            IEnumerable<HouseServiceModel> myHouses = null;
+            if (this.User.IsInRole(AdminRoleName))
+            {
+                return RedirectToAction("Mine", "Houses", new { area = "Admin" });
+            }
+
+            IEnumerable<HouseServiceModel> myHouses = null!;
 
             var userId = this.User.Id();
 
