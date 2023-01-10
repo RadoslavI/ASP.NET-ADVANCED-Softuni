@@ -43,21 +43,20 @@ namespace HouseRentingSystem.Web.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Mine()
         {
             if (this.User.IsInRole(AdminRoleName))
             {
-                return RedirectToAction("Mine", "Houses", new { area = "Admin" });
+                return RedirectToAction("Mine", "Houses", new { area = AreaName });
             }
 
-            IEnumerable<HouseServiceModel> myHouses = null!;
-
+            IEnumerable<HouseServiceModel> myHouses;
             var userId = this.User.Id();
 
             if (this.agents.ExistsById(userId))
             {
                 var currentAgentId = this.agents.GetAgentId(userId);
-
                 myHouses = this.houses.AllHousesByAgentId(currentAgentId);
             }
             else

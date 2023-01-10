@@ -1,5 +1,6 @@
 ﻿using HouseRentingSystem.Services.Data;
 using HouseRentingSystem.Services.Data.Entities;
+#nullable disable
 
 namespace HouseRentingSystem.Services.Agents
 {
@@ -26,13 +27,15 @@ namespace HouseRentingSystem.Services.Agents
 
 		public bool ExistsById(string userId)
 		{
-			return this.data.Agents.Any(a => a.UserId == userId);
+			return this.data
+				.Agents
+				.Any(a => a.UserId == userId);
 		}
 
 		public int GetAgentId(string userId)
 		{
 			return data.Agents
-				.FirstOrDefault(a => a!.UserId! == userId)!
+				.FirstOrDefault(a => a.UserId == userId)
 				.Id;
 		}
 

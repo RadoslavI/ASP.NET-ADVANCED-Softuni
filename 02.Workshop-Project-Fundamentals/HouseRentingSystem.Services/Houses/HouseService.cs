@@ -15,6 +15,7 @@ namespace HouseRentingSystem.Services.Houses
 		private readonly HouseRentingDbContext data;
 		private readonly IUserService users;
 		private readonly IMapper mapper;
+
         public HouseService(HouseRentingDbContext _data,
 			IUserService _users,
 			IMapper _mapper)
