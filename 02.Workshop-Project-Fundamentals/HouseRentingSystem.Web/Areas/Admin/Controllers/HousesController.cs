@@ -17,7 +17,8 @@ namespace HouseRentingSystem.Web.Areas.Admin.Controllers
             this.agents = _agents;
         }
 
-        
+        [Route("Houses/Mine")]
+        [HttpGet]
         public IActionResult Mine()
         {
             var myHouses = new MyHousesViewModel();

@@ -29,7 +29,7 @@
                 }
                 <p></p>
                 @if (!Model.IsRented && !this.agents.ExistsById(this.User.Id())
-               || this.User.IsAdmin())
+               || !Model.IsRented && this.User.IsAdmin())
                 {
                      <form class="input-group-sm" asp-controller="Houses"
                   asp-area="" asp-action="Rent" asp-route-id="@Model.Id" method="post">
