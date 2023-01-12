@@ -40,6 +40,7 @@ builder.Services.AddTransient<IAgentService, AgentService>();
 builder.Services.AddTransient<IStatisticsService, StatisticsService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IRentService, RentService>();
+builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(
     typeof(IHouseService).Assembly,
     typeof(HomeController).Assembly);
