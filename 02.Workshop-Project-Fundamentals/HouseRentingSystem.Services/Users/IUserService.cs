@@ -6,5 +6,6 @@ namespace HouseRentingSystem.Services.Users
     {
         string UserFullName(string userId);
         IEnumerable<UserServiceModel> All();
+        bool UserHasRents(string userId);
     }
 }

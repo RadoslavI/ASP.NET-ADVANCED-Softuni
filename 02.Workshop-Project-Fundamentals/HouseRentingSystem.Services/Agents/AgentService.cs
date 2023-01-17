@@ -39,10 +39,7 @@ namespace HouseRentingSystem.Services.Agents
 				.Id;
 		}
 
-		public bool UserHasRents(string userId)
-			=> this.data.Houses.Any(h => h.RenterId == userId);
-
-		public bool UserWithPhoneNumberExists(string phoneNumber)
+		public bool AgentWithPhoneNumberExists(string phoneNumber)
 			=> this.data.Agents.Any(a => a.PhoneNumber == phoneNumber);
 	}
 }

@@ -52,5 +52,7 @@ namespace HouseRentingSystem.Services.Users
 
             return user.FirstName + " " + user.LastName;
         }
+        public bool UserHasRents(string userId)
+            => this.data.Houses.Any(h => h.RenterId == userId);
     }
 }
