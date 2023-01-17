@@ -1,4 +1,5 @@
-﻿using HouseRentingSystem.Services.Data;
+﻿using AutoMapper;
+using HouseRentingSystem.Services.Data;
 using HouseRentingSystem.Services.Data.Entities;
 using HouseRentingSystem.Tests.Mocks;
 
@@ -8,11 +9,13 @@ namespace HouseRentingSystem.Tests.UnitTests
     public class UnitTestsBase
     {
         protected HouseRentingDbContext data;
+        protected IMapper mapper;
 
         [OneTimeSetUp]
         public void SetUpBase()
         {
             this.data = DatabaseMock.Instance;
+            this.mapper = MapperMock.Instance;
             this.SeedDatabase();
         }
 
